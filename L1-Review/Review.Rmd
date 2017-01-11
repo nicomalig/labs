@@ -10,37 +10,53 @@ output: html_document
 #https://www.healthdata.gov/dataset/deaths-pnuemonia-and-influneza-and-all-deaths-state-and-region-national-center-health
 
 #We will be requiring knitr, dplyr, and ggplot2
-
+require(knitr)
+require(dplyr)
+require(ggplot2)
 
 
 #Read in the dataset
 
-
+data <- read.csv("flu_deaths.csv", header = TRUE)
 
 #Handle NA values
-
-
-
+data[is.na(data)] <- 0
 
 #Create one summary table and one plot about two different aspects of the dataset. Include a small paragraph explaining what each table/plot is showing.
 
 ```
 
-###Your explanation goes here!
-Play around with markdown syntax to create *interesting* and **engaging** text.
+##Your explanation goes here!
+RMarkdown is cool! Anyways, the summary table below shows states with the highest number of flu-related deaths sorted descending. The top 5 states, California, Florida, Texas, Illinois, and Ohio compromise of almost **40% of all of those deaths**. *Notably, Connecticut has 0 deaths!*
 
 ```{r table, echo=FALSE}
 #Summary Table
+summary <- filter(data, geoid == "State", season == "2016-17") %>%
+                  select(State, season, Deaths.from.pneumonia.and.influenza) %>%
+                  group_by(State, season) %>%
+                  summarize(num_deaths = sum(Deaths.from.pneumonia.and.influenza)) %>%
+                  select(State, num_deaths) %>%
+                  arrange(desc(num_deaths))
 
+data.deaths.total <- sum(summary[,2])
+
+kable(summary)
 ```
 
 ```{r plot, echo=FALSE}
 #Plot
+deaths_plot <- filter(data, geoid == "National", age == "65 years and older") %>%
+               select(geoid, age, season, Deaths.from.pneumonia.and.influenza, All.Deaths) %>%
+               group_by(season) %>%
+               summarize(flu_deaths = sum(Deaths.from.pneumonia.and.influenza), 
+                         total_deaths = sum(All.Deaths), 
+                         percent_flu = (flu_deaths / total_deaths * 100))
 
+p <- ggplot(deaths_plot, aes(season, percent_flu))
+p + geom_point()
 ```
 
 ```{r challenge, echo=FALSE}
 #If you are looking for a challenge, try to use the MMWR.Year.Week data to show the number of deaths over time for one season
 
 ```
-
