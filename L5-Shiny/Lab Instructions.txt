@@ -3,16 +3,21 @@ L5 - Shiny
 Using the dataset womensroles from the HSUAR package, answer the following questions.
 
 How does the level of education influence the responses of men?
+** The proportion of agreement steadily declines with the increase in education for men.
 
 How does the level of education influence the responses of women?
+** Again, the proprtion of agreement steadliy declines with the increase in education for women as well.
 
 How do the responses of women compare to the responses of men?
+** Women are pretty close to men in proprtion of agreement to agreement, although it's important to note that there's a higher range of values from a best-fit line closer to around 5-7 years of education. 
 
 Why do you think this is?
+** Simply put, educated people are unlikely to respond with bias towards the ability to "run a country" or to "take care of a home." Both respondents with more education are agreeing in smaller proportions, that is- educated people know that there's no such thing as a "woman's role" in society.
 
 After exploring the data, build an interactive web page that allows the user to ask these questions of the data as well.
 You'll do this by building a Shiny application that allows the user to specify what kind of data they want to see on a plot.
 You'll include a way for the user to select just men's responses, women's responses, or both, as well as the level of education.
+
 
 To begin, create a new Shiny document in RStudio. Previously you had to make two R files and have them communicate, 
 but now through the power of science and technology you can stay in one file (although this has organizational consequences).
